@@ -1,0 +1,17 @@
+{
+  "feature_file": "data\\processed\\features_top10.csv",
+  "feature_columns": [
+    "lag_1",
+    "lag_2",
+    "lag_3",
+    "ema",
+    "recent_2min_count",
+    "time_since_last_invocation_bins"
+  ],
+  "target": "target_next_30s",
+  "model": "per-function Logistic Regression with EMA fallback",
+  "forecast_horizon_seconds": 30,
+  "prewarm_threshold": 0.5,
+  "test_fraction": 0.2,
+  "split": "chronological"
+}

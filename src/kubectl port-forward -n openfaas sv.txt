@@ -1,0 +1,8 @@
+kubectl port-forward -n openfaas svc/gateway 8080:8080   # openFaas live running
+
+
+$sw=[Diagnostics.Stopwatch]::StartNew(); kubectl delete pod -n openfaas-fn -l faas_function=burst-function | Out-Null; $response=Invoke-RestMethod -Uri "http://127.0.0.1:8080/function/burst-function" -Method POST -Body "cold-demo" -ContentType "text/plain"; $sw.Stop(); Write-Host "RESTART/COLD PATH: $([math]::Round($sw.Elapsed.TotalMilliseconds,2)) ms"; Write-Host "RESPONSE: $response"  #cold start of the burst function
+
+Measure-Command { Invoke-RestMethod -Uri "http://127.0.0.1:8080/function/burst-function" -Method POST -Body "warm-demo" -ContentType "text/plain" } | Select-Object TotalMilliseconds # warm test of the burst function 
+
+python .\src\predictive_controller.py #pre warm test of burst function 
